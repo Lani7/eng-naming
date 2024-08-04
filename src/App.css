@@ -1,5 +1,14 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-color: #f7f9fc;
+}
 .App {
+  margin: 10px 80px;
+  box-sizing: border-box;
   text-align: center;
+  
 }
 
 .App-logo {

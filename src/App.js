@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { Button, InputGroup, Form, Accordion } from "react-bootstrap";
+import { Button, InputGroup, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import Title from "./components/Title";
+import EngNameList from "./components/EngNameList";
+
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 // Access your API key as an environment variable (see "Set up your API key" above)
@@ -25,19 +28,20 @@ function App() {
     });
 
     let prompt = `
-    The Korean name is ${search}. 
-    The gender is male. 
-    Please recommend 10 English names that are as similar to the pronunciation of Korean names as possible.
-    Please think about why you recommend that English name in as much detail as possible and let me know by translating it into Korean.
-    Also tell me the meaning of the English name in korean and the personality of the name in Korean using this JSON schema:
-    { "type": "object",
-      "properties": {
-        "name": { "type": "string" },
-        "reason": { "type": "string" },
-        "meaning": { "type": "string" },
-        "personality": { "type": "string" },
-      }
-    }`;
+  The Korean name is ${search}. 
+  The gender is male. 
+  Please recommend 10 English names that are as similar to the pronunciation of Korean names as possible.
+  Please keep in mind that you should always tell in Korean.
+  Please think about why you recommend that English name in as much detail as possible and let me know by translating it into Korean.
+  Also tell me the meaning of the English name in korean and the personality of the name in Korean using this JSON schema:
+  { "type": "object",
+    "properties": {
+      "name": { "type": "string" },
+      "reason": { "type": "string" },
+      "meaning": { "type": "string" },
+      "personality": { "type": "string" },
+    }
+  }`;
 
     let result = await model.generateContent(prompt);
     // 응답을 텍스트로 변환 후 JSON으로 파싱
@@ -54,53 +58,48 @@ function App() {
       } else {
         jsonResponse = JSON.parse(`[${textResponse}]`);
       }
-      console.log(jsonResponse);
       setResponse(jsonResponse);
     } catch (error) {
       console.error("JSON parsing error: ", error);
     }
   }
 
-  const handleClick = () => {
-    aiRun();
-    setOpened(true);
-  };
-
   const handleChangeSearch = (e) => {
     setSearch(e.target.value);
   };
 
+  const handleClick = () => {
+    if (!isValid(search)) {
+      alert("유효하지 않은 입력입니다.");
+      return;
+    }
+    aiRun();
+    setOpened(true);
+  };
+
+  const isValid = (value) => {
+    if (value == " ") return false;
+    const regex = /^(?=.*[^\s])[a-zA-Zㄱ-ㅎ가-힣]*$/;
+    return regex.test(value.trim());
+  };
+
   return (
     <div className="App">
-      hello, world!
+      <Title />
       <Form>
         <InputGroup className="mb-3">
           <Form.Control
-            placeholder="Username"
+            placeholder="한글 이름을 작성하세요."
             aria-label="Username"
             aria-describedby="basic-addon1"
             onChange={(e) => handleChangeSearch(e)}
           />
           <Button variant="link" onClick={() => handleClick()}>
-            Link
+            Search
           </Button>
         </InputGroup>
       </Form>
-      {console.log(opened)}
-      {opened && (
-        <Accordion>
-          {aiResponse.map((item, i) => (
-            <Accordion.Item eventKey={i}>
-              <Accordion.Header>{item.name}</Accordion.Header>
-              <Accordion.Body>
-                <p>{item.reason}</p>
-                <p>뜻: {item.meaning}</p>
-                <p>성격: {item.personality}</p>
-              </Accordion.Body>
-            </Accordion.Item>
-          ))}
-        </Accordion>
-      )}
+      {opened ? <EngNameList aiResponse={aiResponse} /> : null}
     </div>
   );
 }

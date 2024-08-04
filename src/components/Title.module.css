@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+
+.title {
+  font-family: "Black Han Sans", sans-serif;
+  font-size: 2.4rem;
+  font-weight: 400;
+  font-style: normal;
+  color: #78aae3;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  display: inline-block;
+}
