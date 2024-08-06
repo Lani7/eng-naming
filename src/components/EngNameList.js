@@ -23,7 +23,7 @@ const EngNameList = () => {
   return (
     <Accordion>
       {status === "succeeded" && response ? (
-        response[0].names.map((item, i) => (
+        response.map((item, i) => (
           <Accordion.Item eventKey={i} key={i}>
             <Accordion.Header>{item.name}</Accordion.Header>
             <Accordion.Body>
