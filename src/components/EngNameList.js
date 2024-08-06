@@ -19,11 +19,14 @@ const EngNameList = () => {
 
   console.log(response);
   console.log(response[0].names);
+  let list;
+  if (Array.isArray(response[0].names)) list = response[0].names;
+  else list = response;
 
   return (
     <Accordion>
       {status === "succeeded" && response ? (
-        response.map((item, i) => (
+        list.map((item, i) => (
           <Accordion.Item eventKey={i} key={i}>
             <Accordion.Header>{item.name}</Accordion.Header>
             <Accordion.Body>

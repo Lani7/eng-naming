@@ -7,7 +7,7 @@ const genAI = new GoogleGenerativeAI(process.env.REACT_APP_API_KEY);
 
 export const fetchAiResponse = createAsyncThunk(
   "ai/fetchAiResponse",
-  async (search, { rejectWithValue }) => {
+  async ({ koName, gender }, { rejectWithValue }) => {
     try {
       // AI API 호출
       // Using `responseMimeType` requires one of the Gemini 1.5 Pro or 1.5 Flash models
@@ -21,8 +21,8 @@ export const fetchAiResponse = createAsyncThunk(
       });
 
       let prompt = `
-      The Korean name is ${search}. 
-      The gender is male. 
+      The Korean name is ${koName}. 
+      The gender is ${gender}. 
       Please recommend 10 English names that are as similar to the pronunciation of Korean names as possible.
       Please keep in mind that you should always tell in Korean.
       Please think about why you recommend that English name in as much detail as possible and let me know by translating it into Korean.

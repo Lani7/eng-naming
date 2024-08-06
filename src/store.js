@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import aiReducer from "./slices/aiSlice";
-import searchReducer from "./slices/searchSlice";
+import koNameReducer from "./slices/koNameSlice";
+import genderReducer from "./slices/genderSlice";
 
 export default configureStore({
   reducer: {
     ai: aiReducer,
-    search: searchReducer,
+    koName: koNameReducer,
+    gender: genderReducer,
   },
 });
