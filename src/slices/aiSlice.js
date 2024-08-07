@@ -41,7 +41,7 @@ export const fetchAiResponse = createAsyncThunk(
       let result = await model.generateContent(prompt);
       // 응답을 텍스트로 변환 후 JSON으로 파싱
       let textResponse = await result.response.text();
-      console.log("Raw text response:", textResponse);
+      // console.log("Raw text response:", textResponse);
 
       // JSON 문자열을 배열로 변환
       let jsonResponse;
@@ -53,10 +53,10 @@ export const fetchAiResponse = createAsyncThunk(
           textResponse.trim().endsWith("]")
         ) {
           jsonResponse = JSON.parse(textResponse);
-          console.log("jsonResponse 1: " + jsonResponse);
+          // console.log("Parsed JSON response 1: " + jsonResponse);
         } else {
           jsonResponse = JSON.parse(`[${textResponse}]`);
-          console.log("Parsed JSON response2:", jsonResponse);
+          // console.log("Parsed JSON response2:", jsonResponse);
         }
       } catch (e) {
         console.error("JSON parsing error: ", e);

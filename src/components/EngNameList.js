@@ -17,8 +17,9 @@ const EngNameList = () => {
     return <div>Error: {error}</div>;
   }
 
-  console.log(response);
-  console.log(response[0].names);
+  // console.log(response);
+  // console.log(response[0].names);
+
   let list;
   if (Array.isArray(response[0].names)) list = response[0].names;
   else list = response;
