@@ -7,7 +7,7 @@ const genAI = new GoogleGenerativeAI(process.env.REACT_APP_API_KEY);
 
 export const fetchAiResponse = createAsyncThunk(
   "ai/fetchAiResponse",
-  async ({ koName, gender }, { rejectWithValue }) => {
+  async ({ koName, gender, birthYear }, { rejectWithValue }) => {
     try {
       // AI API 호출
       // Using `responseMimeType` requires one of the Gemini 1.5 Pro or 1.5 Flash models
@@ -23,10 +23,12 @@ export const fetchAiResponse = createAsyncThunk(
       let prompt = `
       The Korean name is ${koName}. 
       The gender is ${gender}. 
+      The year of birth is ${birthYear}.
       Please recommend 10 English names that are as similar to the pronunciation of Korean names as possible.
-      Please keep in mind that you should always tell in Korean.
-      Please think about why you recommend that English name in as much detail as possible and let me know by translating it into Korean.
-      Also tell me the meaning of the English name in korean and the personality of the name in Korean using this JSON schema:
+      Consider gender and year of birth at this time.
+      Keep in mind that you should always tell in Korean.
+      Think about why you recommend that English name in as much detail as possible and let me know by translating it into Korean.
+      Also, necessarily tell me the meaning of the English name in korean and the personality of the name in Korean using this JSON schema:
       { "type": "object",
         "properties": {
           "name": { "type": "string" },
