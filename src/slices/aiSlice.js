@@ -7,7 +7,7 @@ const genAI = new GoogleGenerativeAI(process.env.REACT_APP_API_KEY);
 
 export const fetchAiResponse = createAsyncThunk(
   "ai/fetchAiResponse",
-  async ({ koName, gender, birthYear }, { rejectWithValue }) => {
+  async ({ koName, gender, birthYear, type }, { rejectWithValue }) => {
     try {
       // AI API 호출
       // Using `responseMimeType` requires one of the Gemini 1.5 Pro or 1.5 Flash models
@@ -20,23 +20,26 @@ export const fetchAiResponse = createAsyncThunk(
         generationConfig: { responseMimeType: "application/json" },
       });
 
-      let prompt = `
-      The Korean name is ${koName}. 
-      The gender is ${gender}. 
-      The year of birth is ${birthYear}.
-      Please recommend 10 English names that are as similar to the pronunciation of Korean names as possible.
-      Consider gender and year of birth at this time.
-      Keep in mind that you should always tell in Korean.
-      Think about why you recommend that English name in as much detail as possible and let me know by translating it into Korean.
-      Also, necessarily tell me the meaning of the English name in korean and the personality of the name in Korean using this JSON schema:
-      { "type": "object",
-        "properties": {
-          "name": { "type": "string" },
-          "reason": { "type": "string" },
-          "meaning": { "type": "string" },
-          "personality": { "type": "string" },
-        }
-      }`;
+      let typeSound = `Please recommend 10 English names that are as similar to the pronunciation of Korean names as possible.`;
+      let typeMeaning = `Please recommend 10 English names that are as similar to the meaning of Korean names as possible.`;
+      let basePrompt = `
+        The Korean name is ${koName}. 
+        The gender is ${gender}. 
+        The year of birth is ${birthYear}.
+        Consider gender and year of birth at this time.
+        Keep in mind that you should always tell in Korean.
+        Think about why you recommend that English name in as much detail as possible and let me know by translating it into Korean.
+        Also, necessarily tell me the meaning of the English name in korean and the personality of the name in Korean using this JSON schema:
+        { "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "reason": { "type": "string" },
+            "meaning": { "type": "string" },
+            "personality": { "type": "string" },
+          }
+        }`;
+
+      let prompt = (type === "sound" ? typeSound : typeMeaning) + basePrompt;
 
       let result = await model.generateContent(prompt);
       // 응답을 텍스트로 변환 후 JSON으로 파싱

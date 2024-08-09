@@ -2,6 +2,7 @@ import React from "react";
 import { InputGroup, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { changeName } from "../slices/koNameSlice";
+import TypeTab from "./TypeTab";
 
 const KorName = () => {
   const dispatch = useDispatch();
@@ -11,7 +12,8 @@ const KorName = () => {
   };
 
   return (
-    <div>
+    <>
+      <TypeTab />
       <h6>한글이름</h6>
       <InputGroup className="mb-3">
         <Form.Control
@@ -21,7 +23,7 @@ const KorName = () => {
           onChange={(e) => handleChangeSearch(e)}
         />
       </InputGroup>
-    </div>
+    </>
   );
 };
 

@@ -25,7 +25,7 @@ const EngNameList = () => {
   else list = response;
 
   return (
-    <Accordion>
+    <Accordion style={{ padding: "20px 0" }}>
       {status === "succeeded" && response ? (
         list.map((item, i) => (
           <Accordion.Item eventKey={i} key={i}>

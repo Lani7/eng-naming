@@ -3,6 +3,7 @@ import aiReducer from "./slices/aiSlice";
 import koNameReducer from "./slices/koNameSlice";
 import genderReducer from "./slices/genderSlice";
 import birthReducer from "./slices/birthSlice";
+import typeReducer from "./slices/typeSlice";
 
 export default configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export default configureStore({
     koName: koNameReducer,
     gender: genderReducer,
     birthYear: birthReducer,
+    type: typeReducer,
   },
 });

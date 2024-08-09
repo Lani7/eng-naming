@@ -14,19 +14,6 @@ function App() {
     <div className="App">
       <Title />
       <InputForm setOpened={setOpened} />
-      {/* <Form>
-        <InputGroup className="mb-3">
-          <Form.Control
-            placeholder="한글 이름을 작성하세요."
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-            onChange={(e) => handleChangeSearch(e)}
-          />
-          <Button variant="link" onClick={() => handleClick()}>
-            Search
-          </Button>
-        </InputGroup>
-      </Form> */}
       {opened ? <EngNameList /> : null}
     </div>
   );
